@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgresql-all-db-backup-job
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  #schedule: "0 */4 * * *"  # Run every 4 hours, adjust as needed
+  schedule: "14 21 * * *"  # Run every day at 21:14
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: postgres:latest
+            imagePullPolicy: Always
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              apt-get update && apt-get install -y awscli postgresql-client
+              export PGPASSWORD=password
+              TIMESTAMP=$(date +%F_%T)
+              BACKUP_NAME="postgresql_backup_all_$TIMESTAMP.gz"
+              pg_dumpall -h $POSTGRES_HOST -U $POSTGRES_USER | gzip > /tmp/$BACKUP_NAME
+              aws s3 cp /tmp/$BACKUP_NAME s3://$S3_BUCKET_NAME/$S3_FOLDER_NAME/$BACKUP_NAME
+              rm /tmp/$BACKUP_NAME
+            env:
+            - name: AWS_ACCESS_KEY_ID
+              value: "add-access-key-id"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "add-the-secret-key"
+            - name: POSTGRES_PASSWORD
+              value: "password"
+            - name: POSTGRES_USER
+              value: "user"
+            - name: POSTGRES_HOST
+              value: "localhost"
+            - name: S3_BUCKET_NAME
+              value: "test-backup-postgresql2024"
+            - name: test-backup-postgresql2024
+              value: "postgres-backup"
+            - name: S3_FOLDER_NAME
+              value: "./"
+          restartPolicy: OnFailure
