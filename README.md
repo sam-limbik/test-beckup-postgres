@@ -1,7 +1,7 @@
 # Backup PostgreSQL
  A backup script for PostgreSQL that automatically pushes the backup to Amazon S3 
 
-###Create the Backup Script
+### Create the Backup Script
 1. Copy the following script into the file:
 ```
 #!/bin/bash
