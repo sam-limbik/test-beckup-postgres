@@ -38,8 +38,6 @@ spec:
             - name: POSTGRES_HOST
               value: "localhost"
             - name: S3_BUCKET_NAME
-              value: "test-backup-postgresql2024"
-            - name: test-backup-postgresql2024
               value: "postgres-backup"
             - name: S3_FOLDER_NAME
               value: "./"
