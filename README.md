@@ -1,3 +1,23 @@
+# PostgreSQL All Database Backup CronJob
+This repository contains a Kubernetes CronJob configuration for automated backups of all databases in a PostgreSQL instance. The backup is scheduled to run every day at 21:14, and the resulting dump is compressed and stored in an AWS S3 bucket.
+
+### Installation
+Apply the CronJob to your Kubernetes cluster:
+
+```
+kubectl apply -f postgresql-cornjob.yaml
+```
+### Configuration
+
+Adjust the following parameters in the postgresql-all-db-backup-job.yaml file according to your setup:
+
+- schedule: The cron schedule for the backup job. The provided schedule runs the job every day at 21:14.
+- env section: Update the environment variables based on your PostgreSQL and AWS S3 configuration.
+- AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY: AWS IAM user credentials with S3 access.
+- POSTGRES_PASSWORD, POSTGRES_USER, and POSTGRES_HOST: PostgreSQL database connection details.
+- S3_BUCKET_NAME and S3_FOLDER_NAME: AWS S3 bucket and folder where the backup will be stored.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
 # Backup PostgreSQL
  A backup script for PostgreSQL that automatically pushes the backup to Amazon S3 
 
