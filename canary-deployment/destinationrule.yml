@@ -6,9 +6,9 @@ metadata:
 spec:
   host: myapp
   subsets:
-  - name: v1
+  - name: canary
     labels:
       app: v1
-  - name: v2
+  - name: stable
     labels:
       app: v2
