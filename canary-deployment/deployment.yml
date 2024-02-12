@@ -8,18 +8,18 @@ spec:
   selector:
     matchLabels:
       app: myapp
-      version: stable
+      version: v1
   template:
     metadata:
       labels:
         app: myapp
-        version: stable
+        version: v1
     spec:
       containers:
       - name: myapp
         image: jspawar80/canary-deployment:v1
         ports:
-        - containerPort: 80
+        - containerPort: 3000
 
 ---
 
@@ -33,15 +33,15 @@ spec:
   selector:
     matchLabels:
       app: myapp
-      version: canary
+      version: v2
   template:
     metadata:
       labels:
         app: myapp
-        version: canary
+        version: v2
     spec:
       containers:
       - name: myapp
         image: jspawar80/canary-deployment:v2
         ports:
-        - containerPort: 80
+        - containerPort: 3000
