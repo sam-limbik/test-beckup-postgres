@@ -12,9 +12,9 @@ spec:
   - route:
     - destination:
         host: myapp
-        subset: v1
+        subset: stable
       weight: 90
     - destination:
         host: myapp
-        subset: v2
+        subset: canary
       weight: 10
