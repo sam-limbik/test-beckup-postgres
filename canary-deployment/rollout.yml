@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: rollout-example
+spec:
+
+  strategy:
+    canary:
+      trafficRouting:
+        istio:
+          virtualService:
+            name: myapp       # Update with your Istio VirtualService name
+            routes:
+            - primary
+          destinationRule:
+            name: myapp       # Update with your Istio DestinationRule name
+            canarySubsetName: v2
+            stableSubsetName: v1
+      steps:
+      - setWeight: 5
+      - pause:
+          duration: 10m
