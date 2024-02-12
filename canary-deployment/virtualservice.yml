@@ -4,6 +4,10 @@ metadata:
   name: myapp
   namespace: default
 spec:
+  gateways:
+  - istio-rollout-gateway
+  hosts:
+  - istio-rollout.dev.argoproj.io
   hosts:
   - myapp
   http:
