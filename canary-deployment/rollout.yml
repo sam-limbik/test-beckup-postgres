@@ -58,19 +58,19 @@ spec:
        - containerPort: 3000
  strategy:
    canary:
-     canaryService: myapp  # Update with your canary service name
-     stableService: myapp  # Update with your stable service name
      trafficRouting:
        istio:
          virtualService:
-           name: myapp       # Update with your Istio VirtualService name
+           name: myapp    # Update with your Istio VirtualService name
            routes:
            - primary
          destinationRule:
            name: myapp       # Update with your Istio DestinationRule name
-           canarySubsetName: v2
-           stableSubsetName: v1
+           subsets:
+           - name: v1
+           - name: v2
      steps:
      - setWeight: 10
      - pause:
          duration: 2m
+
