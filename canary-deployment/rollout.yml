@@ -1,3 +1,40 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: Rollout
+# metadata:
+#   name: rollout-example
+# spec:
+#  replicas: 2
+#  revisionHistoryLimit: 2
+#  selector:
+#    matchLabels:
+#      app: myapp
+#  template:
+#    metadata:
+#      labels:
+#        app: myapp
+#    spec:
+#      containers:
+#      - name: weather-app
+#        image: docker.io/atulinfracloud/weathersample:v1
+#        imagePullPolicy: Always
+#        ports:
+#        - containerPort: 3000
+#   strategy:
+#     canary:
+#       trafficRouting:
+#         istio:
+#           virtualService:
+#             name: myapp       # Update with your Istio VirtualService name
+#             routes:
+#             - primary
+#           destinationRule:
+#             name: myapp       # Update with your Istio DestinationRule name
+#             canarySubsetName: v2
+#             stableSubsetName: v1
+#       steps:
+#       - setWeight: 10
+#       - pause:
+#           duration: 2m
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -19,19 +56,21 @@ spec:
        imagePullPolicy: Always
        ports:
        - containerPort: 3000
-  strategy:
-    canary:
-      trafficRouting:
-        istio:
-          virtualService:
-            name: myapp       # Update with your Istio VirtualService name
-            routes:
-            - primary
-          destinationRule:
-            name: myapp       # Update with your Istio DestinationRule name
-            canarySubsetName: v2
-            stableSubsetName: v1
-      steps:
-      - setWeight: 10
-      - pause:
-          duration: 2m
+ strategy:
+   canary:
+     canaryService: myapp  # Update with your canary service name
+     stableService: myapp  # Update with your stable service name
+     trafficRouting:
+       istio:
+         virtualService:
+           name: myapp       # Update with your Istio VirtualService name
+           routes:
+           - primary
+         destinationRule:
+           name: myapp       # Update with your Istio DestinationRule name
+           canarySubsetName: v2
+           stableSubsetName: v1
+     steps:
+     - setWeight: 10
+     - pause:
+         duration: 2m
