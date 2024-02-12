@@ -32,7 +32,7 @@ metadata:
 spec:
   ports:
   - port: 3000
-    targetPort: http
+    targetPort: 3000
     protocol: TCP
     name: http
   selector:
