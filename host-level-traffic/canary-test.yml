@@ -68,9 +68,8 @@ spec:
            routes:
            - primary            # optional if there is a single route in VirtualService, required otherwise
      steps:
-     - setWeight: 50 # overrides the weight provided in virtualservice
-     - pause:
-         duration: 10m
+     - setWeight: 10 # overrides the weight provided in virtualservice
+     - pause: {}
 
 ---
 apiVersion: v1
