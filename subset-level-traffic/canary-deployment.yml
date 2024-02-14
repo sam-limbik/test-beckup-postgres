@@ -57,11 +57,11 @@ spec:
     - destination:
         host: istio-rollout
         subset: stable  # referenced in canary.trafficRouting.istio.destinationRule.stableSubsetName
-      weight: 90
+      weight: 100
     - destination:
         host: istio-rollout
         subset: canary  # referenced in canary.trafficRouting.istio.destinationRule.canarySubsetName
-      weight: 10
+      weight: 0
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
@@ -84,12 +84,12 @@ spec:
         - name: http
           containerPort: 5000
           protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 10
+        # livenessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 5000
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
   strategy:
     canary:
       trafficRouting:
